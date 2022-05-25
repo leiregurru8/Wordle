@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "sqlite.h": "c",
+        "createconnection.h": "c"
+    }
+}

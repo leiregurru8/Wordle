@@ -1,11 +1,15 @@
 #include "loginregistro.h"
 #include <iostream>
+#include <string.h>
+#include <stdlib.h>
+
+using namespace std;
 
 namespace inicio{
 	Usuario::Usuario(){//no sabemos si lo necesitamos
 	}
 
-	Usuario::~Usuario();//no sabemos si lo necesitamos
+	Usuario::~Usuario(){}//no sabemos si lo necesitamos
 
 	Usuario:: Usuario(char* nombreUsu, char* contrasenya){
 		this->nombreUsu = new char[strlen(nombreUsu)+1];
@@ -15,7 +19,7 @@ namespace inicio{
 		strcpy(this->contrasenya, contrasenya);
 	}
 
-	Usuario::Usuario(char* nombreUsu, char* contrasenya, int edad, char* ciudad, char sexo){
+	Usuario::Usuario(char* nombreUsu, char* contrasenya, int edad, char* ciudad, char* sexo, int codUsu){
 		this->nombreUsu = new char[strlen(nombreUsu)+1];
 		strcpy(this->nombreUsu,nombreUsu);
 
@@ -28,12 +32,18 @@ namespace inicio{
 		strcpy(this->ciudad, ciudad);
 
 		this->sexo=sexo;
+
+		this-> codUsu=codUsu;
 	}
 
 	Usuario Usuario::registro(){
-		char* nombreUsu, contrasenya, ciudad;
+		char* nombreUsu;
+		char* contrasenya;
+		char* ciudad;
+		char* sexo;
 		int edad;
-		char sexo;
+		int codUsu;
+	
 		cout<< "Bienvenido a Wordle! para poder registrarte deberas rellenar unos datos" <<endl;
 
 		cout<< "Introduce tu nombre de usuario:" <<endl;
@@ -48,13 +58,14 @@ namespace inicio{
 		cin>> sexo;
 		//LE ENVIO LOS DATOS AL SERVER PARA QUE HAGA LA INSERT
 		
-		Usuario(nombreUsu, contrasenya, edad, ciudad, sexo);
+		Usuario u(nombreUsu,contrasenya,edad,ciudad,sexo);
 
-		return Usuario;
+		return u;
 	}
 
 		Usuario Usuario::login(){
-			char* nombreUsu, contrasenya;
+			char* nombreUsu;
+			char* contrasenya;
 
 			cout<< "Introduce tu nombre de usuario:" <<endl;
 			cin>> nombreUsu;
@@ -64,9 +75,13 @@ namespace inicio{
 			//A TRAVÉS DEL SOCKET MANDO NOMBREUSU Y CONTRASENYA
 			//SI LA COMPROBACIÓN SALE BIEN, EL SOCKET ME DEVUELVE TODOS LOS DATOS DEL USUARIO SEPARADOS POR ;
 			//SI LA COMPROBACIÓN SALE MAL, ME DEVUELVE NULL
-			Usuario(nombreUsu, contrasenya);
-			return Usuario;
+			Usuario u(nombreUsu, contrasenya);
+			return u;
 		}
 	
-}
+} //Separar por cliente y servidor. Servidor tiene el socket server y lo de la BD.
+	//Cliente todo lo demás
+
+	//El socket server tendrá un swithc, en función de lo que le llegue llama a 1 metodo de BD u otro
+	//Por facilitar, metemos todas las clases en los dos lados y a las clases les añadimos el metodo toStr
 

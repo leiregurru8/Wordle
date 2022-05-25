@@ -14,7 +14,7 @@ using namespace std;
     cout <<" 1. iniciar sesion" <<endl;
     cout <<" 2. registrarse" <<endl;
 
-    cin<< opcion;
+    cin >> opcion;
 
     if (opcion == 1){
         u1.login();
