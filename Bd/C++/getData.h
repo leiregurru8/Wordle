@@ -8,6 +8,7 @@ using namespace std;
 #define GETDATA_H_
 
 
-inicio :: Usuario *getUsuario (char* nombreUsu, char* contrasenya);
-
+Usuario *getUsuario (char* nombreUsu, char* contrasenya);
+Usuario* listaUsuarios(sqlite3 *db, int tamanyo);
+Partida* listaPartidas(sqlite3 *db, int tamanyo);
 #endif
