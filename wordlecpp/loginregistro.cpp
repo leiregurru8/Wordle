@@ -2,10 +2,12 @@
 #include <iostream>
 #include <string.h>
 #include <stdlib.h>
+#include "sqlite3.h"
+#include "getData.h"
 
 using namespace std;
 
-namespace inicio{
+
 	Usuario::Usuario(){//no sabemos si lo necesitamos
 	}
 
@@ -67,7 +69,7 @@ namespace inicio{
 
 	this->codUsu=u.codUsu;
 
-}
+	}
 
 	Usuario Usuario::registro()
 	{
@@ -203,10 +205,6 @@ namespace inicio{
 	{
 		return this->codPartida;
 	}
-	char* Partida::getFecha()
-	{
-		return this->fecha;
-	}
 	int Partida::getnumIntentos()
 	{
 		return this->numIntentos;
@@ -223,10 +221,6 @@ namespace inicio{
 	{
 		this->codPartida=codPartida;
 	}
-	void Partida::setFecha(char* fecha)
-	{
-		this->fecha=fecha;
-	}
 	void Partida::setnumIntentos(int numIntentos)
 	{
 		this->numIntentos=numIntentos;
@@ -240,7 +234,65 @@ namespace inicio{
 		this->codUsuario=codUsuario;
 	}
 
-} //Separar por cliente y servidor. Servidor tiene el socket server y lo de la BD.
+
+//sacar una lista con las partidas que ha jugado un usuario
+Partida* sacarMiLista (Usuario u)
+{
+	int codigo=u.getCodUsu();
+	sqlite3* db;
+
+	sqlite3_open("../Bd/db.db", &db);
+	int tamanyo=numeroPartidas(db);
+
+	Partida* listapartidas=listaPartidas(db,tamanyo);
+	Partida* miLista;
+	int contador=0;
+	for (int i=0;i<tamanyo;i++)
+	{
+		if (listapartidas[i].getcodUsuario()==u.getCodUsu())
+		{
+			miLista[contador]=listapartidas[i];
+			contador++;
+		}
+	}
+	return miLista;
+
+}
+
+//sacar el porcentaje de victorias de un jugador, pasandole su lista de partidas (miLista)
+float porcentajeVictorias(Partida* lista)
+{
+	int total=sizeof(lista);
+	int victorias=0;
+
+
+	for (int i=0;i<total;i++)
+	{
+		if(lista[i].getvictoria()=='0')
+		{
+			victorias++;
+		}
+	}
+
+	float porcentaje=(victorias/total)*100;
+
+	return porcentaje;
+}
+//sacar de media el numero de intentos que ha hecho un jugador, pasando su lista(miLista)
+float mediaNumIntentos(Partida* lista)
+{
+	int total=sizeof(lista);
+	int intentos=0;
+	for(int i=0;i<total;i++)
+	{
+		intentos=intentos+lista[i].getnumIntentos();
+	}
+
+	float media=intentos/total;
+	return media;
+}
+
+ //Separar por cliente y servidor. Servidor tiene el socket server y lo de la BD.
 	//Cliente todo lo demás
 
 	//El socket server tendrá un swithc, en función de lo que le llegue llama a 1 metodo de BD u otro

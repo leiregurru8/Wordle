@@ -40,7 +40,6 @@ class Usuario{
 	{
 		private:
 			int codPartida;
-			char* fecha;
 			int numIntentos;
 			int victoria;
 			int codUsuario;
@@ -48,7 +47,6 @@ class Usuario{
 		public:
 			Partida();
 			~Partida();
-			Partida(int codPartida,char* fecha,int numIntentos,int victoria,int codUsuario);
 			Partida(int codPartida,int numIntentos,int victoria,int codUsuario);
 			Partida(const Partida &p);
 			int getcodPartida();
@@ -61,7 +59,9 @@ class Usuario{
 			void setnumIntentos(int numIntentos);
 			void setvictoria(int victoria);
 			void setcodUsuario(int codUsuario);
+			
 	};
-
-
+Partida* sacarMiLista (Usuario u);
+float porcentajeVictorias(Partida* lista);
+float mediaNumIntentos(Partida*lista);
 #endif

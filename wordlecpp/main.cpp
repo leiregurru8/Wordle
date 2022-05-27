@@ -1,7 +1,6 @@
 #include "loginregistro.h"
 #include <iostream>
 
-using namespace inicio;
 using namespace std;
 
  main(){
